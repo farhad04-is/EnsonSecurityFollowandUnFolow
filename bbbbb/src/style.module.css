@@ -1,0 +1,43 @@
+/* src/style.module.css */
+
+.animationContainer {
+  /* Ensure it fills the screen and is centered for the animation */
+  position: fixed; /* Or absolute, depending on your layout */
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex; /* Flexbox for centering letters */
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(to right, #4a00e0, #8e2de2); /* Example background */
+  z-index: 1000; /* Make sure it's on top of other content */
+  overflow: hidden; /* Important to prevent scrollbars during animation */
+}
+
+.letter {
+  display: inline-block; /* Essential for individual letter transformations */
+  font-family: 'Inter', sans-serif;
+  font-size: 5rem; /* Adjust size as needed */
+  font-weight: 800;
+  color: white;
+  margin: 0 0.5rem; /* Space between letters */
+  line-height: 1; /* Prevent extra space above/below letters */
+  /* Initial state is handled by GSAP, but some base styles are good */
+  transform: translateX(0) translateY(0) rotate(0); /* Ensure no default transforms */
+  opacity: 1; /* Default visible, GSAP will override */
+}
+
+/* The `.active` class for main-content is no longer managed by EngLangAnimation.
+  It would be managed by MainContent or App.js if needed.
+*/
+/*
+.main-content {
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.main-content.active {
+  opacity: 1;
+}
+*/

@@ -1,0 +1,21 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/EngiLang
+    username: postgres
+    password: 2004
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create
+minio:
+  url: http://localhost:9000
+  access-key: admin
+  secret-key: admin123
+  bucket-name: video-mp4
+video:
+  temp-download-folder: "C:\\Users\\Farhad\\Desktop\\Video Fayll"
+server:
+  port: 8082
+bot:
+  name: Spring_api_boot_2004_bot
+  token: 7748281449:AAFGdEnGeQcoLxib_jS3UYXxw8CkJncWqUQ
