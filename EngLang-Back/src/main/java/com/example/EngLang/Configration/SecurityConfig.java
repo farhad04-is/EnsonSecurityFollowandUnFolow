@@ -27,37 +27,40 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable()) // 🔄 Yeni sintaksis (Security 6+) - CSRF-i söndürürük, çünki JWT istifadə edirik
-                .cors(cors -> cors.configurationSource(corsConfigurationSource())) // ✅ CORS-u aktivləşdiririk və konfiqurasiyamızı tətbiq edirik
+                .csrf(csrf -> csrf.disable())
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
-                        .requestMatchers("/admin/**").hasRole("ADMIN") // /admin/ olan sorğular yalnız ADMIN rolu üçün
-                        .requestMatchers("/v1/EngLang/**").hasAnyRole("USER")
-                        .requestMatchers("/api/follow/**").hasAnyRole("USER")
-                        .anyRequest().authenticated() // Qalan bütün sorğular üçün autentifikasiya tələb et
+                        .requestMatchers("/chat", "/chat/**", "/ws/**").permitAll() // WebSocket icazəsi
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/v1/EngLang/**").hasRole("USER")
+                        .requestMatchers("/user/**").hasRole("USER")
+                        .requestMatchers("/api/follow/**").hasRole("USER")
+                        .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Sessiyaları state-less edirik (JWT üçün vacibdir)
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 );
 
-        // JWT filtirini UsernamePasswordAuthenticationFilter-dən əvvəl əlavə edirik
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
+
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration config = new CorsConfiguration();
-        // Frontend ünvanınızı burada əlavə edin
-        config.setAllowedOrigins(List.of("http://localhost:5173"));
-        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        config.setAllowedHeaders(List.of("*"));
-        config.setAllowCredentials(true);
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(List.of("http://localhost:5173")); // ⭐️ frontend domainin
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
+        configuration.setAllowedHeaders(List.of("*"));
+        configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", config);
+        source.registerCorsConfiguration("/**", configuration);
         return source;
     }
+
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         // Şifrələri BCrypt istifadə edərək encode etmək üçün PasswordEncoder bean-ı

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 @Component
@@ -18,15 +19,21 @@ public class JwtUtil {
     private final Key key = Keys.hmacShaKeyFor(SECRET.getBytes(StandardCharsets.UTF_8));
 
     public String generateToken(String username, Map<String, Object> extraClaims) {
-        return Jwts.builder()
-                .setClaims(extraClaims)
+        Map<String, Object> claimsWithRole = new HashMap<>(extraClaims);
+        claimsWithRole.put("role", "USER"); // Token payload-a "role": "USER" əlavə edilir
+
+        String jwts = Jwts.builder()
+                .setClaims(claimsWithRole)
                 .setSubject(username)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60*7))
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 7)) // 7 saatlıq token
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
 
+        System.out.println("***********" + jwts + "******");
+        return jwts;
     }
+
 
 
     public Claims extractClaims(String token) {
