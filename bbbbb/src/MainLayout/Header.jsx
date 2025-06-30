@@ -14,7 +14,7 @@ function Header() {
           <Nav className="me-auto">
 <Nav.Link as={Link} to="/">Home</Nav.Link>
             <Nav.Link href="AllWords">AllWords</Nav.Link>
-            <Nav.Link href="Message">Message</Nav.Link>
+            <Nav.Link href="messages">Message</Nav.Link>
               <Nav.Link href="profile">Profile</Nav.Link>
             <Nav.Link href="searchFriends">searchFriends</Nav.Link>
               <Nav.Link href="VideoLists">VideoLists</Nav.Link>
