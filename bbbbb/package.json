@@ -19,6 +19,7 @@
     "bootstrap": "^5.3.7",
     "formik": "^2.4.6",
     "gsap": "^3.13.0",
+    "jwt-decode": "^4.0.0",
     "lucide-react": "^0.514.0",
     "mdb-react-ui-kit": "^9.0.0",
     "react": "^19.0.0",

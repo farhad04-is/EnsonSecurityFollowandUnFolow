@@ -4,6 +4,7 @@ import com.example.EngLang.Service.Security.JwtFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -15,7 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
+import org.springframework.http.HttpMethod;
 import java.util.List;
 
 @Configuration
@@ -24,6 +25,10 @@ public class SecurityConfig {
 
     private final JwtFilter jwtFilter;
 
+ // Bu import'u eklediğinizden emin olun
+
+// ... diğer import'lar
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -31,12 +36,21 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
+                        // GET /videolist/** (getAllVideoLists gibi) herkes için açık
+                        .requestMatchers(HttpMethod.GET, "/videolist/**").permitAll()
                         .requestMatchers("/chat", "/chat/**", "/ws/**").permitAll() // WebSocket icazəsi
+
+                        // POST /videolist/dowloand sadece ADMIN rolüne sahip kullanıcılar için
+                        .requestMatchers(HttpMethod.POST, "/videolist/dowloand").hasRole("ADMIN")
+
+                        // PUT /videolist/{id}/like (likeVideo gibi) herkes için açık
+                        .requestMatchers(HttpMethod.PUT, "/videolist/{id}/like").permitAll()
+
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/v1/EngLang/**").hasRole("USER")
                         .requestMatchers("/user/**").hasRole("USER")
                         .requestMatchers("/api/follow/**").hasRole("USER")
-                        .anyRequest().authenticated()
+                        .anyRequest().authenticated() // Diğer tüm istekler kimlik doğrulaması gerektirir
                 )
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -45,7 +59,6 @@ public class SecurityConfig {
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
-
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
