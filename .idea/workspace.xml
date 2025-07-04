@@ -2,18 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3e67e0e4-7a27-41b8-8193-de203439ce25" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/EngLang-Back/src/main/java/com/example/EngLang/Configration/WebSocketConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EngLang-Back/src/main/java/com/example/EngLang/Controller/ChatController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/EngLang-Back/src/main/java/com/example/EngLang/Entity/Mesaje.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EngLang-Back/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/EngLang-Back/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/EngLang-Back/src/main/java/com/example/EngLang/Configration/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/EngLang-Back/src/main/java/com/example/EngLang/Configration/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EngLang-Back/src/main/java/com/example/EngLang/Service/Security/JwtFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/EngLang-Back/src/main/java/com/example/EngLang/Service/Security/JwtFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EngLang-Back/src/main/java/com/example/EngLang/Service/Security/JwtUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/EngLang-Back/src/main/java/com/example/EngLang/Service/Security/JwtUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bbbbb/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/bbbbb/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bbbbb/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/bbbbb/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bbbbb/src/MainLayout/Header.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/bbbbb/src/MainLayout/Header.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bbbbb/src/Pages/Message.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/bbbbb/src/Pages/Message.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bbbbb/vite.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/bbbbb/vite.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bbbbb/src/Components/VideoCard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/bbbbb/src/Components/VideoCard.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bbbbb/src/Pages/Home.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/bbbbb/src/Pages/Home.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,21 +14,21 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "Ferhad2024"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Ferhad2024&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/farhad04-is/EnsonSecurityFollowandUnFolow.git",
-    "accountId": "f15d651f-1323-4a78-8766-5b6451b1d06f"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/farhad04-is/EnsonSecurityFollowandUnFolow.git&quot;,
+    &quot;accountId&quot;: &quot;f15d651f-1323-4a78-8766-5b6451b1d06f&quot;
   }
-}]]></component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 4
-}]]></component>
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 4
+}</component>
   <component name="ProjectId" id="2zFMOFd1RibysvkfJAG02j3Mg6N" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -47,7 +38,8 @@
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main"
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true"
   }
 }]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />

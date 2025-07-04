@@ -32,7 +32,7 @@ public class MinioConfig {
         return MinioClient.builder()
                 .endpoint(minioUrl)       // Set the MinIO server URL
                 .credentials(accessKey, secretKey) // Set the access and secret keys for authentication
-                .build();                 // Build the MinioClient instance
+                .build();                 // Build the MinioClient instancez
     }
 
     // You might also want a getter for bucketName if other services need it without re-injecting

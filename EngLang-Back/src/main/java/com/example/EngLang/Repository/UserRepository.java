@@ -13,4 +13,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
     // Yeni əlavə olunan metod: username-də verilən stringi ehtiva edən istifadəçiləri tapmaq üçün
     List<User> findTop10ByUsernameStartingWithIgnoreCaseOrderByUsernameAsc(String query);
 
+
 }

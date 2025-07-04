@@ -15,7 +15,7 @@ import MainContent from './MainContent';
 import { SignupForm } from './Forum/SignupForm';
 import LoginForm from './Forum/LoginForm';
 import Home from './Pages/Home';
-import AdminVideoInput from './Pages/AdminVideoInput';
+import AdminPanel from './Admin/AdminPanel';
 
 function App() {
   // sadece sekme boyunca animasyon gösterilsin
@@ -39,10 +39,10 @@ function App() {
           <Route path="/" element={<Layout />}>
            <Route index element={<Home />} />
             <Route path="youtubevideoURL" element={<VideoInputPage />} />
-            <Route path="adminvideo" element={<AdminVideoInput />} />
             <Route path="AllWords" element={<AllWords />} />
             <Route path="messages" element={<Message />} />
             <Route path="profile" element={<Profile />} />
+             <Route path="admin" element={<AdminPanel />} />
             <Route path="searchFriends" element={<SearcFriends />} />
             <Route path="videolists" element={<VideoLists />} />
             <Route path="playlists" element={<Playlists />} />

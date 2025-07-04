@@ -40,17 +40,15 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/videolist/**").permitAll()
                         .requestMatchers("/chat", "/chat/**", "/ws/**").permitAll() // WebSocket icazəsi
 
-                        // POST /videolist/dowloand sadece ADMIN rolüne sahip kullanıcılar için
-                        .requestMatchers(HttpMethod.POST, "/videolist/dowloand").hasRole("ADMIN")
 
                         // PUT /videolist/{id}/like (likeVideo gibi) herkes için açık
                         .requestMatchers(HttpMethod.PUT, "/videolist/{id}/like").permitAll()
 
-                        .requestMatchers("/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/v1/EngLang/**").hasRole("USER")
-                        .requestMatchers("/user/**").hasRole("USER")
-                        .requestMatchers("/api/follow/**").hasRole("USER")
-                        .anyRequest().authenticated() // Diğer tüm istekler kimlik doğrulaması gerektirir
+                        .requestMatchers("/admin/**").permitAll()
+                        .requestMatchers("/v1/EngLang/**").permitAll()
+                        .requestMatchers("/user/**").permitAll()
+                        .requestMatchers("/api/follow/**").permitAll()
+                        .anyRequest().permitAll() // Diğer tüm istekler kimlik doğrulaması gerektirir
                 )
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)

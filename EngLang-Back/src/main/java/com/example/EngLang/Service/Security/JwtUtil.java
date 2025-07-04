@@ -1,6 +1,5 @@
 package com.example.EngLang.Service.Security;
 
-
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -15,26 +14,26 @@ import java.util.Map;
 
 @Component
 public class JwtUtil {
+
     private final String SECRET = "mySuperSecretKeyForJWTThatIsAtLeast32Bytes!";
     private final Key key = Keys.hmacShaKeyFor(SECRET.getBytes(StandardCharsets.UTF_8));
 
     public String generateToken(String username, Map<String, Object> extraClaims) {
         Map<String, Object> claimsWithRole = new HashMap<>(extraClaims);
-        claimsWithRole.put("role", "USER"); // Token payload-a "role": "USER" əlavə edilir
+        claimsWithRole.put("role", "USER");
 
-        String jwts = Jwts.builder()
+        return Jwts.builder()
                 .setClaims(claimsWithRole)
                 .setSubject(username)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 7)) // 7 saatlıq token
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 7)) // 7 saat
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
-
-        System.out.println("***********" + jwts + "******");
-        return jwts;
     }
 
-
+    public String generateToken(String username) {
+        return generateToken(username, Map.of());
+    }
 
     public Claims extractClaims(String token) {
         return Jwts.parserBuilder()
@@ -43,11 +42,18 @@ public class JwtUtil {
                 .parseClaimsJws(token)
                 .getBody();
     }
+
     public String extractUsername(String token) {
-        return extractClaims(token).getSubject(); // 🔥 Eksik olan metod buydu
+        return extractClaims(token).getSubject();
     }
-    public String generateToken(String username) {
-        return generateToken(username, Map.of()); // veya new HashMap<>()
+
+    public boolean validateToken(String token) {
+        try {
+            Claims claims = extractClaims(token);
+            return claims.getExpiration().after(new Date()); // expired yoxlaması
+        } catch (Exception e) {
+            return false;
+        }
     }
 }
 

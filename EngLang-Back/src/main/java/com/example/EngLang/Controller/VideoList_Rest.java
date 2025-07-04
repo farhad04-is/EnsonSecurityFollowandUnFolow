@@ -11,6 +11,7 @@ import java.util.List;
 @RestController
 @RequestMapping("videolist")
 @RequiredArgsConstructor
+@CrossOrigin
 public class VideoList_Rest {
     private final VideoListsService videoListsService;
 

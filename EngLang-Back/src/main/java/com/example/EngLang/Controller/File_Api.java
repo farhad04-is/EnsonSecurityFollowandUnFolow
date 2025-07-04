@@ -7,6 +7,7 @@ import com.example.EngLang.Service.VideoSaveService;
 import com.example.EngLang.Service.VideoUploadService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -18,13 +19,14 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("v1/EngLang")
-
+@CrossOrigin
 @RequiredArgsConstructor
+
 public class File_Api {
 
     private final TxtSubtitleWriteService txtSubtitleWriteService;
     private final TxtSubtitleReadService txtSubtitleReadService;
-    private final VideoSaveService videoSaveService;
+  private final VideoSaveService videoSaveService;
     private final VideoUploadService videoUploadService;
     private final FileRepository fileRepository; // Altyazıyı silmek için enjekte edildi
 
@@ -47,6 +49,7 @@ public class File_Api {
 
             // 2. Videoyu kaydet ve MinIO URL'sini al
             String minioFileName = videoSaveService.saveVideo(url);
+//                                   videoSaveService.extractAndUploadAudio(url);  ***************
 
             // 3. MinIO URL'sini yanıta ekle
             if (minioFileName != null) {

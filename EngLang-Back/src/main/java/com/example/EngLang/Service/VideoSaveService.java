@@ -2,6 +2,8 @@ package com.example.EngLang.Service;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.util.Comparator;
+
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
@@ -144,6 +146,77 @@ public class VideoSaveService {
             return null;
         }
     }
+
+    public String extractAndUploadAudio(String videoUrl) {
+        try {
+            Path tempDir = Files.createTempDirectory("audio-extract");
+            String outputTemplate = tempDir.resolve("%(id)s.%(ext)s").toString();
+
+            String[] command = {
+                    ytDlpPath,
+                    "-x",
+                    "--audio-format", "mp3",
+                    "--audio-quality", "0",
+                    "--ffmpeg-location", ffmpegPath,
+                    "-o", outputTemplate,
+                    videoUrl
+            };
+
+            ProcessBuilder pb = new ProcessBuilder(command);
+            pb.redirectErrorStream(true);
+            Process process = pb.start();
+
+            try (BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(process.getInputStream(), StandardCharsets.UTF_8))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    System.out.println(line);
+                }
+            }
+
+            int exitCode = process.waitFor();
+            if (exitCode != 0) {
+                System.err.println("Səs çıxarılarkən xəta baş verdi.");
+                return null;
+            }
+
+            // Çıxarılan .mp3 faylını tap
+            File[] audioFiles = tempDir.toFile().listFiles((dir, name) -> name.endsWith(".mp3"));
+            if (audioFiles == null || audioFiles.length == 0) {
+                System.err.println("MP3 faylı tapılmadı.");
+                return null;
+            }
+
+            File audioFile = audioFiles[0];
+            String contentType = Files.probeContentType(audioFile.toPath());
+            if (contentType == null) {
+                contentType = "audio/mpeg";
+            }
+
+            String fileName = System.currentTimeMillis() + "_" + audioFile.getName();
+
+            // MinIO-ya yüklə
+            String minioFileName = videoUploadService.uploadStream(
+                    Files.newInputStream(audioFile.toPath()),
+                    fileName,
+                    audioFile.length(),
+                    contentType
+            );
+
+            // Təmizləmə
+            Files.walk(tempDir)
+                    .sorted(Comparator.reverseOrder())
+                    .map(Path::toFile)
+                    .forEach(File::delete);
+
+            return minioFileName;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     // sanitizeFileName metodu artıq %(id)s.%(ext)s istifadə etdiyimiz üçün lazım deyil.
     // Əgər yenidən %(title)s istifadə etmək istəsən, bu metodu geri qaytarmalısan.
 }

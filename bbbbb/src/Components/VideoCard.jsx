@@ -1,59 +1,24 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import '../styles/video.css';
+import React from "react";
+import "../styles/video.css";
 
 const extractYouTubeId = (url) => {
-  if (!url || typeof url !== 'string') return null;
+  if (!url || typeof url !== "string") return null;
   const regex = /(?:youtu\.be\/|youtube\.com(?:\/embed\/|\/watch\?v=|\/watch\?.+&v=))([^?&"'>]+)/;
   const match = url.match(regex);
   return match ? match[1] : null;
 };
 
-const VideoCard = ({ video }) => {
-  if (!video) return null;
-
-  const [likes, setLikes] = useState(video.likes || 0);
-  const [hasLiked, setHasLiked] = useState(false);
-
-  useEffect(() => {
-    if (!video.id) return;
-
-    const likedVideos = JSON.parse(localStorage.getItem("likedVideos")) || [];
-    if (likedVideos.includes(video.id)) {
-      setHasLiked(true);
-    }
-  }, [video.id]);
-
-  const handleLike = async () => {
-    if (!video.id) {
-      alert("Bu videonun identifikatoru yoxdur!");
-      return;
-    }
-
-    const likedVideos = JSON.parse(localStorage.getItem("likedVideos")) || [];
-    if (likedVideos.includes(video.id)) {
-      alert("Bu videonu artıq bəyənmisiniz!");
-      return;
-    }
-
-    try {
-      await axios.put(`http://localhost:8082/videolist/${video.id}/like`);
-      setLikes(prev => prev + 1);
-      setHasLiked(true);
-
-      likedVideos.push(video.id);
-      localStorage.setItem("likedVideos", JSON.stringify(likedVideos));
-    } catch (err) {
-      console.error("Bəyənmə xətası:", err);
-      alert("Bəyənmə əməliyyatında xəta baş verdi.");
-    }
-  };
-
+const VideoCard = ({ video, likes, liked, onLike, onVideoClick }) => {
   const youTubeId = extractYouTubeId(video.link);
   const isYouTube = !!youTubeId;
 
+  const handleClick = (e) => {
+    if (e.target.closest(".like-button-bottom")) return;
+    onVideoClick();
+  };
+
   return (
-    <div className="video-card">
+    <div className="video-card" onClick={handleClick} style={{ cursor: "pointer" }}>
       <h3 className="video-title">{video.videoname}</h3>
 
       {isYouTube ? (
@@ -72,13 +37,16 @@ const VideoCard = ({ video }) => {
 
       <div className="video-actions-bottom">
         <button
-          onClick={handleLike}
+          onClick={(e) => {
+            e.stopPropagation();
+            onLike();
+          }}
           className="like-button-bottom"
-          disabled={hasLiked}
+          disabled={liked}
         >
           🔥 Bəyən ({likes})
         </button>
-        {hasLiked && <p className="liked-note">✔️ Bəyənildi</p>}
+        {liked && <p className="liked-note">✔️ Bəyənildi</p>}
       </div>
     </div>
   );
